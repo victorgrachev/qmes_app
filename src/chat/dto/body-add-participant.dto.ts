@@ -1,10 +1,8 @@
-import { Expose, Transform } from 'class-transformer';
-import { decrypt } from 'src/shared/crypt';
+import { Expose } from 'class-transformer';
 
-export class BodyAddParticipant {
+export class BodyAddParticipantDto {
   @Expose()
-  @Transform(({ value }) => decrypt(value))
-  chatId: number;
+  chatId: string;
 
   @Expose()
   usersIqs: string[];

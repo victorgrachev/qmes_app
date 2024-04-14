@@ -1,12 +1,13 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { PassportStrategy } from '@nestjs/passport';
+import { plainToInstance } from 'class-transformer';
 import { Request } from 'express';
 import { Strategy } from 'passport-custom';
-import { initSecrets } from 'src/shared/crypt';
 import { SupabaseService } from 'src/supabase/supabase.service';
+import { User } from 'src/user/entities/user.entity';
 
 @Injectable()
-export class SupabaseStrategy extends PassportStrategy(Strategy, 'supabase') {
+export class JwtStrategy extends PassportStrategy(Strategy, 'jwt-supabase') {
   constructor(private supabaseService: SupabaseService) {
     super();
   }
@@ -30,12 +31,16 @@ export class SupabaseStrategy extends PassportStrategy(Strategy, 'supabase') {
       refresh_token,
     });
 
-    if (!user || error) {
+    if (!user?.user_metadata?.user_info_id || error) {
       throw new UnauthorizedException();
     }
 
-    initSecrets(user);
+    const { data } = await supabase
+      .from('user')
+      .select()
+      .eq('id', user.user_metadata.user_info_id)
+      .single();
 
-    return user;
+    return plainToInstance(User, data, { excludeExtraneousValues: true });
   }
 }

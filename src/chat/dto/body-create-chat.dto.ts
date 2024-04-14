@@ -1,6 +1,6 @@
 import { Expose } from 'class-transformer';
 
-export class BodyCreateChat {
+export class BodyCreateChatDto {
   @Expose()
   type: string;
 

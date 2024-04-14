@@ -1,7 +1,9 @@
 import { Expose, Type } from 'class-transformer';
-import { IdentifierEncrypt } from './identifier-encrypt.entity';
 
-export class UserEntity extends IdentifierEncrypt {
+export class ParticipantDto {
+  @Expose()
+  id: string;
+
   @Expose()
   @Type(() => Date)
   createdAt: Date;
@@ -22,8 +24,7 @@ export class UserEntity extends IdentifierEncrypt {
   @Expose()
   gender: string;
 
-  constructor(partial: Partial<UserEntity>) {
-    super(partial);
+  constructor(partial: Partial<ParticipantDto>) {
     Object.assign(this, partial);
   }
 }

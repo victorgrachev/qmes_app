@@ -1,41 +1,34 @@
 import {
-  Body,
   Controller,
   Post,
+  Req,
   Res,
   ServiceUnavailableException,
-  UnauthorizedException,
+  UseGuards,
 } from '@nestjs/common';
 import { Response } from 'express';
-import { Public } from 'src/shared/decorator/public.decorator';
+import { Public } from 'src/auth/public.decorator';
 import { AuthService } from './auth.service';
-import { BodySignDto } from './dto/body-sign.dto';
+import { LocalAuthGuard } from './local-auth.guard';
 
 @Controller('auth')
 export class AuthController {
   constructor(private authService: AuthService) {}
 
   @Public()
+  @UseGuards(LocalAuthGuard)
   @Post('login')
-  async login(
-    @Body() body: BodySignDto,
-    @Res({ passthrough: true }) response: Response,
-  ) {
-    const { data, error } = await this.authService.signInWithPassword(body);
-
-    if (error) {
-      throw new UnauthorizedException();
-    }
-
-    const {
-      session: { refresh_token, expires_at, access_token, token_type },
-    } = data;
-
-    response.cookie('refresh_token', refresh_token, {
-      maxAge: expires_at,
+  async login(@Req() req, @Res({ passthrough: true }) response: Response) {
+    response.cookie('refresh_token', req.user.refresh_token, {
+      maxAge: req.user.expires_at,
     });
 
-    return { access_token, token_type };
+    console.log(req);
+
+    return {
+      access_token: req.user.access_token,
+      token_type: req.user.token_type,
+    };
   }
 
   @Post('logout')
@@ -43,7 +36,7 @@ export class AuthController {
     const { error } = await this.authService.signOut();
 
     if (error) {
-      return new ServiceUnavailableException();
+      throw new ServiceUnavailableException();
     }
 
     response.clearCookie('refresh_token');

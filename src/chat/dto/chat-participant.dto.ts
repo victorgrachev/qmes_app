@@ -1,17 +1,14 @@
 import { Expose, Type } from 'class-transformer';
-import { UserEntity } from 'src/shared/entity/user.entity';
-import { ChatEntity } from '../../shared/entity/chat.entity';
+import { ChatDto } from './chat.dto';
+import { ParticipantDto } from './participant.dto';
 
-export class ChatParticipant {
+export class ChatParticipantDto extends ChatDto {
   @Expose()
-  @Type(() => ChatEntity)
-  chat: ChatEntity;
+  @Type(() => ParticipantDto)
+  participants: ParticipantDto[];
 
-  @Expose()
-  @Type(() => UserEntity)
-  participants: UserEntity[];
-
-  constructor(partial: Partial<ChatParticipant>) {
+  constructor(partial: Partial<ChatParticipantDto>) {
+    super(partial);
     Object.assign(this, partial);
   }
 }
