@@ -6,8 +6,8 @@ export class User {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column({ unique: true })
-  login: string;
+  @Column()
+  username: string;
 
   @OneToMany(() => Chat, (chat) => chat.creator)
   createdChats: Chat[];

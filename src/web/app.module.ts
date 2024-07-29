@@ -27,6 +27,6 @@ import { StaticServerMiddleware } from '@/web/static-server.middleware';
 })
 export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
-    consumer.apply(StaticServerMiddleware).exclude('api/(.*)').forRoutes('*');
+    consumer.apply(StaticServerMiddleware).exclude('/api/(.*)');
   }
 }

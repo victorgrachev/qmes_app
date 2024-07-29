@@ -5,12 +5,13 @@ import HtmlWebpackPlugin from 'html-webpack-plugin';
 
 const config: Configuration = {
   entry: {
-    main: './src/main.tsx',
+    main: './src/main-page.tsx',
   },
   output: {
     path: path.resolve(__dirname, 'dist'),
     filename: '[name].js',
     clean: true,
+    publicPath: '/',
   },
   resolve: {
     modules: ['node_modules'],

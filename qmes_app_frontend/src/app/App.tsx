@@ -5,17 +5,20 @@ import {
   RouterProvider,
   Navigate,
 } from 'react-router-dom';
-import { MainPage } from '@/pages/main';
+import { MainPage } from '@/pages/main-page';
+import { CreateChatPage } from '@/pages/create-chat-page';
 
 const router = createBrowserRouter([
   {
-    path: '/main',
+    path: '/',
     element: <MainPage />,
   },
-  { path: '/join-chat/:externalId', element: <div>Hello test!</div> },
+  { path: '/chat/create', element: <CreateChatPage /> },
+  { path: '/chat/enter', element: <div>1</div> },
+  { path: '/chat/:externalId', element: <div>2</div> },
   {
     path: '*',
-    element: <Navigate to="/main" />,
+    element: <Navigate to="/" />,
   },
 ]);
 
