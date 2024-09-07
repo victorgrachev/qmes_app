@@ -5,29 +5,29 @@ import {
   UnauthorizedException,
 } from '@nestjs/common';
 import { Request } from 'express';
-import { UserService } from '@/user/user.service';
+import { GetUserByIdInteractor } from '@/user/get-user-by-id.interactor';
 
 @Injectable()
 export class ChatGuard implements CanActivate {
-  constructor(private userService: UserService) {}
+  constructor(private getUserByIdInteractor: GetUserByIdInteractor) {}
 
   private getUserIdFromCookie(request: Request) {
-    return Number(request.cookies.userId);
+    return Number(request.cookies['current-user-id']);
   }
 
   async canActivate(context: ExecutionContext): Promise<boolean> {
-    const request = context.switchToHttp().getRequest();
+    const req = context.switchToHttp().getRequest();
 
-    const userId = this.getUserIdFromCookie(request);
+    const userId = this.getUserIdFromCookie(req);
 
     if (!userId) {
       throw new UnauthorizedException();
     }
 
     try {
-      const user = await this.userService.getUserById(userId);
+      const user = await this.getUserByIdInteractor.execute(userId);
 
-      request['user'] = user;
+      req['user'] = user;
     } catch {
       throw new UnauthorizedException();
     }

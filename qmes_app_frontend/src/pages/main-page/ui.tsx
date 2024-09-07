@@ -2,7 +2,7 @@ import { Box, Center, Heading, Icon, VStack } from '@chakra-ui/react';
 import { PiChatTeardropFill } from 'react-icons/pi';
 import React from 'react';
 import { CreateChat } from '@/features/create-chat';
-import { ChatEnter } from '@/features/chat-enter';
+import { EnterChat } from '@/features/sign-in-chat';
 
 export const MainPage = () => {
   return (
@@ -17,7 +17,7 @@ export const MainPage = () => {
       </Box>
       <Center as="main" gap={2} flexGrow={1} flexShrink={1} overflow="auto">
         <CreateChat />
-        <ChatEnter />
+        <EnterChat />
       </Center>
     </VStack>
   );

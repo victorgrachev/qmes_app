@@ -1,1 +1,1 @@
-export * from './create-chat';
+export * from './create-chat-interactor';

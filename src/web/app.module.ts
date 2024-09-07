@@ -7,11 +7,13 @@ import { ChatModule } from '@/chat/chat.module';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import path from 'node:path';
 import { StaticServerMiddleware } from '@/web/static-server.middleware';
+import { MessageModule } from '@/message/message.module';
 
 @Module({
   imports: [
     UserModule,
     ChatModule,
+    MessageModule,
     TypeOrmModule.forRoot({
       type: 'sqljs',
       autoLoadEntities: true,

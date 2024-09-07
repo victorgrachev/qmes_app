@@ -1,19 +1,25 @@
 import React from 'react';
 import { Center, Box, Container } from '@chakra-ui/react';
 import { FormCreateUser } from '@/features/create-user';
-import { createUserModel } from '@/features/create-user';
-import { createChatModel } from '@/features/create-chat';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
+import { tokens, useInject } from '@/shared/di';
+import { CreateChatInteractor } from '@/features/create-chat';
 
 export const CreateChatPage = () => {
+  const createChatInteractor = useInject<CreateChatInteractor>(
+    tokens.createChatInteractor,
+  );
+
   const navigate = useNavigate();
 
-  const handleSubmit = async (username: string) => {
-    await createUserModel.createUser(username);
+  const [searchParams] = useSearchParams();
 
-    const chat = await createChatModel.createChat();
-
-    navigate(`/chat/${chat.externalId}`);
+  const handleSubmit = (username: string) => {
+    createChatInteractor.execute(
+      username,
+      navigate,
+      searchParams.get('chatExternalId'),
+    );
   };
 
   return (

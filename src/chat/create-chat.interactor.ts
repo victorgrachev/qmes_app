@@ -1,5 +1,4 @@
 import { Injectable } from '@nestjs/common';
-import { User } from '@/user/user.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Chat } from '@/chat/chat.entity';
@@ -11,11 +10,11 @@ export class CreateChatInteractor {
     @InjectRepository(Chat) private chatRepository: Repository<Chat>,
   ) {}
 
-  async execute(creator: User) {
-    return await this.chatRepository.save({
-      creator,
-      externalId: randomUUID().replace(/-/g, ''),
-      participants: [creator],
+  execute() {
+    return this.chatRepository.save({
+      externalId: randomUUID(),
+      participants: [],
+      messages: [],
     });
   }
 }

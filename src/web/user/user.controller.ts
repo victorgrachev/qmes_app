@@ -1,21 +1,32 @@
-import { Body, Controller, Post, Res } from '@nestjs/common';
-import { UserDto } from '@/user/user.dto';
-import { UserService } from '@/user/user.service';
-import { Response } from 'express';
+import {
+  Body,
+  Controller,
+  HttpCode,
+  Post,
+  UseInterceptors,
+  HttpStatus,
+} from '@nestjs/common';
+import { ApiOkResponse, ApiTags } from '@nestjs/swagger';
+import { UserCreateResponseDto } from '@/web/user/user-create-response.dto';
+import { CreateUserDtoRequest } from '@/web/user/user-create-request.dto';
+import { CreateUserInteractor } from '@/user/create-user.interactor';
+import { UserInterceptor } from '@/web/user/user.interceptor';
 
+@ApiTags('QMess')
 @Controller('user')
 export class UserController {
-  constructor(private userService: UserService) {}
+  constructor(private createUserInteractor: CreateUserInteractor) {}
 
+  @ApiOkResponse({
+    description: 'Пользователь успешно создан',
+    type: UserCreateResponseDto,
+  })
+  @UseInterceptors(UserInterceptor)
   @Post('create')
+  @HttpCode(HttpStatus.OK)
   async create(
-    @Body() user: UserDto,
-    @Res({ passthrough: true }) response: Response,
-  ) {
-    const createdUser = await this.userService.createUser(user);
-
-    response.cookie('userId', createdUser.id);
-
-    return createdUser;
+    @Body() { username }: CreateUserDtoRequest,
+  ): Promise<UserCreateResponseDto> {
+    return await this.createUserInteractor.execute({ username });
   }
 }

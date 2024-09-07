@@ -1,4 +1,3 @@
-import { UserDto } from './user.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from '@/user/user.entity';
 import { Repository } from 'typeorm';
@@ -11,7 +10,7 @@ export class CreateUserInteractor {
     private userRepository: Repository<User>,
   ) {}
 
-  async execute(user: UserDto) {
-    return await this.userRepository.save(user);
+  execute(user: { username: string }) {
+    return this.userRepository.save(user);
   }
 }

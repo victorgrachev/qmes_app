@@ -1,6 +1,7 @@
 # compiled output
 /dist
 /node_modules
+qmes_app_frontend/dist
 
 # Logs
 logs

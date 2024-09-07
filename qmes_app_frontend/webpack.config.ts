@@ -1,11 +1,11 @@
 import path from 'path';
-import { Configuration } from 'webpack';
+import { Configuration, ProvidePlugin } from 'webpack';
 import TsconfigPathsPlugin from 'tsconfig-paths-webpack-plugin';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
 
 const config: Configuration = {
   entry: {
-    main: './src/main-page.tsx',
+    main: './src/main.tsx',
   },
   output: {
     path: path.resolve(__dirname, 'dist'),
@@ -21,7 +21,7 @@ const config: Configuration = {
   module: {
     rules: [
       {
-        test: /\.ts|tsx$/,
+        test: /\.ts|tsx|js$/,
         exclude: /node_modules/,
         loader: 'babel-loader',
       },
@@ -41,6 +41,9 @@ const config: Configuration = {
             </body>
           </html>
       `,
+    }),
+    new ProvidePlugin({
+      React: 'react',
     }),
   ],
 };

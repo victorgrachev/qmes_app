@@ -1,0 +1,4 @@
+{
+  "file": "./openapi.json",
+  "outputDir": "./src/shared/api"
+}

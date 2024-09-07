@@ -1,0 +1,358 @@
+{
+  "openapi": "3.0.0",
+  "paths": {
+    "/api/user/create": {
+      "post": {
+        "operationId": "UserController_create",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateUserDtoRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Пользователь успешно создан",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserCreateResponseDto"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "QMess"
+        ]
+      }
+    },
+    "/api/chat/create": {
+      "post": {
+        "operationId": "ChatController_create",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Чат успешно создан",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ChatCreateResponseDto"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "QMess"
+        ]
+      }
+    },
+    "/api/chat/{externalId}/sign-in": {
+      "post": {
+        "operationId": "ChatController_signIn",
+        "parameters": [
+          {
+            "name": "externalId",
+            "required": true,
+            "in": "path",
+            "description": "ID чата",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Успешный вход в чат",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SignInDto"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "QMess"
+        ]
+      }
+    },
+    "/api/chat/{externalId}/sign-out": {
+      "post": {
+        "operationId": "ChatController_signOut",
+        "parameters": [
+          {
+            "name": "externalId",
+            "required": true,
+            "in": "path",
+            "description": "ID чата",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Успешный выход из чата"
+          }
+        },
+        "tags": [
+          "QMess"
+        ]
+      }
+    },
+    "/api/chat/{externalId}/send-message": {
+      "post": {
+        "operationId": "ChatController_sendMessage",
+        "parameters": [
+          {
+            "name": "externalId",
+            "required": true,
+            "in": "path",
+            "description": "ID чата",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ChatSendMessageBodyDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Сообщение отправлено"
+          }
+        },
+        "tags": [
+          "QMess"
+        ]
+      }
+    },
+    "/api/chat/{externalId}/subscribe-update-participants": {
+      "get": {
+        "operationId": "ChatController_subscribeUpdateParticipants",
+        "parameters": [
+          {
+            "name": "externalId",
+            "required": true,
+            "in": "path",
+            "description": "ID чата",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Успешная подписка"
+          }
+        },
+        "tags": [
+          "QMess"
+        ]
+      }
+    },
+    "/api/chat/{externalId}/subscribe-update-messages": {
+      "get": {
+        "operationId": "ChatController_subscribeUpdateMessages",
+        "parameters": [
+          {
+            "name": "externalId",
+            "required": true,
+            "in": "path",
+            "description": "ID чата",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Успешная подписка"
+          }
+        },
+        "tags": [
+          "QMess"
+        ]
+      }
+    }
+  },
+  "info": {
+    "title": "QMess",
+    "description": "Description API application QMess",
+    "version": "1.0.0",
+    "contact": {}
+  },
+  "tags": [
+    {
+      "name": "QMess",
+      "description": ""
+    }
+  ],
+  "servers": [],
+  "components": {
+    "schemas": {
+      "CreateUserDtoRequest": {
+        "type": "object",
+        "properties": {
+          "username": {
+            "type": "string",
+            "description": "Имя пользователя"
+          },
+          "chatExternalId": {
+            "type": "string",
+            "description": "Идентификатор чата, участником которого является пользователь"
+          }
+        },
+        "required": [
+          "username",
+          "chatExternalId"
+        ]
+      },
+      "UserCreateResponseDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "number",
+            "description": "id"
+          },
+          "username": {
+            "type": "string",
+            "description": "Имя пользователя"
+          }
+        },
+        "required": [
+          "id",
+          "username"
+        ]
+      },
+      "User": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "number",
+            "description": "id"
+          },
+          "username": {
+            "type": "string",
+            "description": "Имя пользователя"
+          }
+        },
+        "required": [
+          "id",
+          "username"
+        ]
+      },
+      "ChatCreateResponseDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "number",
+            "description": "id"
+          },
+          "externalId": {
+            "type": "string",
+            "description": "Идентификатор"
+          },
+          "participants": {
+            "description": "Участники",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/User"
+            }
+          }
+        },
+        "required": [
+          "id",
+          "externalId",
+          "participants"
+        ]
+      },
+      "Message": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "number",
+            "description": "id"
+          },
+          "creator": {
+            "description": "Создатель",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/User"
+              }
+            ]
+          },
+          "message": {
+            "type": "string",
+            "description": "Сообщение"
+          }
+        },
+        "required": [
+          "id",
+          "creator",
+          "message"
+        ]
+      },
+      "SignInDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "number",
+            "description": "id"
+          },
+          "externalId": {
+            "type": "string",
+            "description": "Идентификатор"
+          },
+          "participants": {
+            "description": "Участники",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/User"
+            }
+          },
+          "messages": {
+            "description": "Сообщения",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Message"
+            }
+          }
+        },
+        "required": [
+          "id",
+          "externalId",
+          "participants",
+          "messages"
+        ]
+      },
+      "ChatSendMessageBodyDto": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string",
+            "description": "Сообщение"
+          }
+        },
+        "required": [
+          "message"
+        ]
+      }
+    }
+  }
+}

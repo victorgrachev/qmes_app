@@ -33,11 +33,11 @@ export const FormCreateUser: React.FC<Props> = ({ onSubmit }) => {
       onSubmit={handleSubmit}
     >
       <FormControl isRequired>
-        <FormLabel>Введите имя пользователя</FormLabel>
-        <Input name="username" />
+        <FormLabel>Ваше имя</FormLabel>
+        <Input name="username" w={300} />
       </FormControl>
       <Button colorScheme="whiteAlpha" type="submit">
-        Войти
+        Создать
       </Button>
     </VStack>
   );

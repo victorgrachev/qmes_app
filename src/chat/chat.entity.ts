@@ -3,10 +3,10 @@ import {
   Entity,
   JoinTable,
   ManyToMany,
-  ManyToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { User } from '@/user/user.entity';
+import { Message } from '@/message/message.entity';
 
 @Entity()
 export class Chat {
@@ -16,10 +16,11 @@ export class Chat {
   @Column({ unique: true })
   externalId: string;
 
-  @ManyToOne(() => User, (user) => user.createdChats)
-  creator: User;
-
   @ManyToMany(() => User)
   @JoinTable()
   participants: User[];
+
+  @ManyToMany(() => Message)
+  @JoinTable()
+  messages: Message[];
 }
