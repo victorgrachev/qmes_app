@@ -3,12 +3,9 @@ import { Center, Box, Container } from '@chakra-ui/react';
 import { FormCreateUser } from '@/features/create-user';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { tokens, useInject } from '@/shared/di';
-import { CreateChatInteractor } from '@/features/create-chat';
 
 export const CreateChatPage = () => {
-  const createChatInteractor = useInject<CreateChatInteractor>(
-    tokens.createChatInteractor,
-  );
+  const createChatInteractor = useInject(tokens.createChatInteractor);
 
   const navigate = useNavigate();
 

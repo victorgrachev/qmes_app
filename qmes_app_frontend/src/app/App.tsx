@@ -38,7 +38,7 @@ const router = createBrowserRouter([
   },
 ]);
 
-const injector = createInjector()
+export const injector = createInjector()
   .provideValue(tokens.signInChatGateway, chatControllerSignIn)
   .provideValue(tokens.signOutChatGateway, chatControllerSignOut)
   .provideValue(tokens.createChatGateway, chatControllerCreate)

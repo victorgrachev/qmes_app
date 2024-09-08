@@ -1,5 +1,4 @@
-import { createContext, useContext, useMemo, Context } from 'react';
-import { Injector, TChildContext } from 'typed-inject';
+import { createContext, useContext, useMemo } from 'react';
 
 export const enum tokens {
   createChatInteractor = 'createChatInteractor',
@@ -15,14 +14,12 @@ export const enum tokens {
   sendMessageInteractor = 'sendMessageInteractor',
 }
 
-const context = createContext<unknown | null>(null);
+const context = createContext<RootInjector | null>(null);
 
 export const ProvideInjector = context.Provider;
 
-export const useInject = <Type>(token: tokens): Type => {
-  const injector = useContext(
-    context as Context<Injector<TChildContext<tokens, Type, tokens>>>,
-  );
+export const useInject = <TypeToken extends tokens>(token: TypeToken) => {
+  const injector = useContext(context)!;
 
   return useMemo(() => injector.resolve(token), [token]);
 };

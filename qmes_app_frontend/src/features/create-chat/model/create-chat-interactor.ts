@@ -21,7 +21,7 @@ export class CreateChatInteractorImpl implements CreateChatInteractor {
   async execute(
     username: string,
     navigate: NavigateFunction,
-    chatExternalId?: string,
+    chatExternalId?: string | null,
   ): Promise<void> {
     if (chatExternalId) {
       await this.createUserGateway({

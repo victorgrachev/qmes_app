@@ -22,14 +22,9 @@ import {
 import { useNavigate, useParams } from 'react-router-dom';
 import { FiSend } from 'react-icons/fi';
 import ResizeTextarea from 'react-textarea-autosize';
-import { SignInChatInteractor } from '@/features/sign-in-chat';
 import { tokens, useInject } from '@/shared/di';
 import useSWR from 'swr';
 import { FormEvent, useEffect, useRef } from 'react';
-import { SignOutChatInteractor } from '@/features/sign-out-chat';
-import { SubscribeUpdateParticipantsInteractor } from '@/features/subscribe-update-participants';
-import { SubscribeUpdateMessagesInteractor } from '@/features/subscribe-update-messages';
-import { SendMessageInteractor } from '@/features/send-message';
 
 export const ChatPage = () => {
   const { externalId } = useParams();
@@ -42,27 +37,19 @@ export const ChatPage = () => {
 
   const [isMobile] = useMediaQuery('(max-width: 768px)');
 
-  const signInChatInteractor = useInject<SignInChatInteractor>(
-    tokens.signInChatInteractor,
+  const signInChatInteractor = useInject(tokens.signInChatInteractor);
+
+  const signOutChatInteractor = useInject(tokens.signOutChatInteractor);
+
+  const subscribeUpdateParticipantsInteractor = useInject(
+    tokens.subscribeUpdateParticipantsInteractor,
   );
 
-  const signOutChatInteractor = useInject<SignOutChatInteractor>(
-    tokens.signOutChatInteractor,
+  const subscribeUpdateMessagesInteractor = useInject(
+    tokens.subscribeUpdateMessagesInteractor,
   );
 
-  const subscribeUpdateParticipantsInteractor =
-    useInject<SubscribeUpdateParticipantsInteractor>(
-      tokens.subscribeUpdateParticipantsInteractor,
-    );
-
-  const subscribeUpdateMessagesInteractor =
-    useInject<SubscribeUpdateMessagesInteractor>(
-      tokens.subscribeUpdateMessagesInteractor,
-    );
-
-  const sendMessageInteractor = useInject<SendMessageInteractor>(
-    tokens.sendMessageInteractor,
-  );
+  const sendMessageInteractor = useInject(tokens.sendMessageInteractor);
 
   const {
     isValidating,
